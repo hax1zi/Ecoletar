@@ -1,101 +1,89 @@
+'use client'
+import { CircularProgress, CircularProgressLabel, Container, VStack } from "@chakra-ui/react";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import cursor from "../app/public/assets/svgs/cursor.svg"
+import ButtonLink from "@/components/ButtonLink";
+import Navbar from "@/components/Navbar";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const[position, setPosition] = useState(0)
+  const[isMoved, setIsMoved] = useState(false)
+  
+  const slidePorcent = () => {
+    if (position === 1) {
+      return 33
+    } else if (position === 2) {
+      return 66
+    } else if (position === 3) {
+      return 99
+    }
+  }
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsMoved(true)
+    }, 1000)
+
+    return () => clearTimeout(timer)
+  }, [position])
+
+  const slide = () => {
+    if (position === 0) {
+      return ( 
+      <Container className="bg-primary flex flex-col items-center justify-center rounded-md text-center gap-8" minH="55vh" minW="45vw">
+        <p className="text-3xl">Deseja saber como nosso projeto funciona?
+        Então <b>inicie</b> nosso <b>slide</b></p>
+        <ButtonLink onClick={() => setPosition(position + 1)}>Iniciar</ButtonLink>
+      </Container>)
+    } else if (position === 1) {
+      return (
+        <Container className="border-primary overflow-hidden border-4 flex flex-col items-center justify-center relative rounded-md text-center gap-8" minH="55vh" minW="45vw">
+           <p className="text-3xl">Primeiro você deve se cadastrar no nosso site</p>
+           <div className="w-[35%] h-[35%] bg-neutral-200 rounded-md">
+            <div className="w-full h-[70%] bg-primary flex justify-center items-center">
+              <div className={`p-4 text-4xl bg-Button rounded-md text-white transition-colors ${isMoved && "delay-700 duration-300 bg-ButtonHover"}`}>
+                  Cadastro
+              </div>
+            </div>
+           </div>
+           <div className={`absolute duration-1000 transition ${isMoved  ? "-translate-y-[0vh] opacity-100" : "translate-y-[25vh] opacity-0 translate-x-[10vw]"} `}>
+           <Image src={cursor} alt="" width={64} height={64}/>
+           </div>
+           <ButtonLink onClick={() => setPosition(position + 1)}>Proximo</ButtonLink>
+        </Container>
+      )
+    } else if (position === 2) {
+      return (
+        <Container className="border-primary overflow-hidden border-4 flex flex-col items-center justify-center relative rounded-md text-center gap-8" minH="55vh" minW="45vw">
+          <p className="text-3xl">Após o preenchimento do formulário a nossa equipe de coleta irá até a sua empresa no horário selecionado</p>
+          <ButtonLink onClick={() => setPosition(position + 1)}>Proximo</ButtonLink>
+        </Container>
+      )
+    } else if (position === 3) {
+      return (
+      <Container className="border-primary overflow-hidden border-4 flex flex-col items-center justify-center relative rounded-md text-center gap-8" minH="55vh" minW="45vw">
+          <p className="text-3xl">Após a coleta dos resíduos selecionaremos ele e enviaremos ele para se transformar em energia renovável</p>
+          <p className="text-2xl mt-4"> E o que está esperando, insira a Ecoletar na sua empresa/industria</p>
+          <ButtonLink link="/cadastro">Cadastro</ButtonLink>
+        </Container>
+      )
+    }
+  }
+  return (
+    <main>
+      <Navbar/>
+      <header className="w-full h-[calc(100vh-80px)] flex flex-col items-center justify-center gap-8">
+        <h1 className="text-5xl text-ButtonHover font-bold">Bem-vindo ao Projeto Ecolletar</h1>
+        <VStack className="relative">
+          {position > 0 && (
+          <CircularProgress className="absolute right-4 top-4" value={slidePorcent()} color='green.400'>
+            <CircularProgressLabel>{slidePorcent()}%</CircularProgressLabel>
+          </CircularProgress>
+          )}
+          {slide()}
+        </VStack>
+      </header>
+    </main>
+  )
 }
