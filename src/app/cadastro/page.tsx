@@ -96,7 +96,7 @@ export default function Cadastro() {
                 {Object.values(errors).reverse().map((error) => (
                     <Alert status="error" key={error.message} className="absolute -top-16 w-[95%] rounded-md">
                         <AlertIcon />
-                        <AlertTitle>{error.message}</AlertTitle> {/* Aqui estava ok */}
+                        <AlertTitle>{error.message}</AlertTitle>
                     </Alert>
                 ))}
                 
@@ -108,7 +108,7 @@ export default function Cadastro() {
                         <Input {...register("company_name")} placeholder="Nome da empresa" focusBorderColor="green.100" size="lg"/>
                         <Input {...register("email")} placeholder="Email" focusBorderColor="green.100" size="lg"/>
                         <Input {...register("phone_number")} placeholder="Telefone" type="number" focusBorderColor="green.100" size="lg"/>
-                        <Input {...register("password")} placeholder="Senha" focusBorderColor="green.100" size="lg"/>
+                        <Input type="password" {...register("password")} placeholder="Senha" focusBorderColor="green.100" size="lg"/>
                         <Input {...register("confirm_password")} placeholder="Confirmar senha" focusBorderColor="green.100" size="lg"/>
                         <ButtonLink type="submit">Enviar</ButtonLink>
                     </form>
